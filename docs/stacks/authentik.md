@@ -32,7 +32,7 @@ Authentik identity provider for single sign-on across lab services.
 
 | Variable                        | Description                                         |
 |---------------------------------|-----------------------------------------------------|
-| AUTHENTIK_TAG                   | Image tag, set a version like `2025.10` to pin it   |
+| AUTHENTIK_TAG                   | Image version, `2026.8.3`                           |
 | AUTHENTIK_SECRET_KEY            | Cookie signing key, never change it after install   |
 | AUTHENTIK_POSTGRESQL__PASSWORD  | Password for the `authentik` Postgres role          |
 | AUTHENTIK_BOOTSTRAP_PASSWORD    | Password for `akadmin`, only read on the first start |
@@ -93,5 +93,5 @@ Back up `/opt/stacks/authentik/.env` and `/opt/stacks/authentik/data/authentik` 
 
 - Authentik keeps its own Postgres on oracle, so logins do not depend on the VPN or the database on asrc
 - Changing `AUTHENTIK_POSTGRESQL__PASSWORD` in `.env` does not change the role password in an existing database
-- With `AUTHENTIK_TAG=latest` the nightly update moves to new releases, read the release notes or pin a version
+- Authentik is pinned to a version, the `latest` tag is frozen at 2025.2 and must not be used. To upgrade, read the release notes, change `AUTHENTIK_TAG` in `/opt/stacks/authentik/.env` and run `update.sh`
 - Keep port 8083 closed in the security list, all traffic goes through NPM

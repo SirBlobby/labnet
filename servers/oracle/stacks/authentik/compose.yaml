@@ -25,6 +25,7 @@ services:
     container_name: authentik-server
     restart: unless-stopped
     command: server
+    shm_size: 512mb
     mem_limit: 256m
     memswap_limit: 1g
     env_file:
@@ -49,6 +50,7 @@ services:
     restart: unless-stopped
     command: worker
     user: root
+    shm_size: 512mb
     mem_limit: 128m
     memswap_limit: 768m
     env_file:
