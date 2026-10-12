@@ -1,0 +1,22 @@
+services:
+  netbird-dashboard:
+    image: netbirdio/dashboard:latest
+    container_name: netbird-dashboard
+    restart: unless-stopped
+    ports:
+      - 8082:80
+    env_file:
+      - ./dashboard.env
+  netbird-server:
+    image: netbirdio/netbird-server:latest
+    container_name: netbird-server
+    restart: unless-stopped
+    ports:
+      - 8081:80
+      - 3478:3478/udp
+    volumes:
+      - ./data:/var/lib/netbird
+      - ./config.yaml:/etc/netbird/config.yaml
+    command:
+      - --config
+      - /etc/netbird/config.yaml

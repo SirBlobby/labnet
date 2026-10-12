@@ -1,0 +1,48 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: core-postgres
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - ${DATABASE_BIND_ADDRESS}:5432:5432
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+      - ./init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U postgres
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - core-data
+  valkey:
+    image: valkey/valkey:8-bookworm
+    container_name: core-valkey
+    restart: unless-stopped
+    command: --save 60 1 --loglevel warning --requirepass ${VALKEY_PASSWORD}
+    environment:
+      VALKEY_PASSWORD: ${VALKEY_PASSWORD}
+    ports:
+      - ${DATABASE_BIND_ADDRESS}:6379:6379
+    volumes:
+      - ./data/valkey:/data
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - valkey-cli -a "$$VALKEY_PASSWORD" --no-auth-warning ping | grep -q PONG
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - core-data
+networks:
+  core-data:
+    external: true
