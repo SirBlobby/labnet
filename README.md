@@ -6,7 +6,7 @@ Server configurations and Docker stacks for the lab VPN network. An Oracle Cloud
 
 | Server | Host                     | Stacks               |
 |--------|--------------------------|----------------------|
-| oracle | Oracle Cloud (Ubuntu 24) | npm, netbird, dockge |
+| oracle | Oracle Cloud (Ubuntu 26) | npm, authentik, netbird, dockge |
 | arc    | ARC Server (Ubuntu 26), NVIDIA GPU | dockge     |
 | asrc   | ASRC (Ubuntu 24), NVIDIA GPU | database, dockge |
 | ugreen | UGREEN NAS (UGOS)        | dockge               |
@@ -14,23 +14,27 @@ Server configurations and Docker stacks for the lab VPN network. An Oracle Cloud
 ## Quick start
 
 ```
-git clone <repo-url> /opt/labnet
-sudo bash /opt/labnet/servers/<name>/install.sh
+git clone <repo-url> ~/labnet
+sudo bash ~/labnet/install.sh <name>
 ```
+
+The repository can live in any folder. Do not move it after the install, the update timer points to it.
 
 Updates run nightly from a systemd timer, or by hand:
 
 ```
-sudo bash /opt/labnet/servers/<name>/update.sh
+sudo bash ~/labnet/servers/<name>/update.sh
 ```
 
 ## Layout
 
 ```
+install.sh              installs one server by name
 docs/                   documentation and port maps
 scripts/lib/            shared install and update logic
 servers/<name>/
   server.env            server settings
+  server.local.env      optional overrides, not tracked by git
   install.sh            first time setup
   update.sh             update packages and redeploy stacks
   stacks/<stack>/       compose.yaml, templates and hooks

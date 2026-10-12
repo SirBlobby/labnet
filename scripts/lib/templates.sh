@@ -71,7 +71,9 @@ build_stack_env() {
     local new_file line key
 
     new_file="$(mktemp)"
-    grep -E '^[A-Za-z_][A-Za-z0-9_]*=' "$SERVER_ENV_FILE" > "$new_file" || true
+    for key in "${SERVER_ENV_KEYS[@]}"; do
+        printf "%s='%s'\n" "$key" "${!key}" >> "$new_file"
+    done
 
     if [[ -f "$example_file" ]]; then
         while IFS= read -r line || [[ -n "$line" ]]; do

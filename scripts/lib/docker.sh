@@ -6,6 +6,35 @@ install_docker_from_apt() {
     apt-get install -y docker.io docker-compose-v2
 }
 
+configure_docker_log_limits() {
+    local daemon_file="/etc/docker/daemon.json"
+
+    if [[ -z "${DOCKER_LOG_MAX_SIZE:-}" ]]; then
+        return 0
+    fi
+
+    if [[ -f "$daemon_file" ]]; then
+        if ! grep -q '"max-size"' "$daemon_file"; then
+            log_warning "$daemon_file already exists, add the log limits by hand"
+        fi
+        return 0
+    fi
+
+    mkdir -p "$(dirname "$daemon_file")"
+    cat > "$daemon_file" <<EOF
+{
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "$DOCKER_LOG_MAX_SIZE",
+    "max-file": "3"
+  }
+}
+EOF
+
+    systemctl restart docker >/dev/null 2>&1 || log_warning "Could not restart the docker service"
+    log_info "Container logs limited to 3 files of $DOCKER_LOG_MAX_SIZE"
+}
+
 ensure_docker() {
     if ! command -v docker >/dev/null 2>&1; then
         log_info "Installing Docker"
@@ -16,6 +45,7 @@ ensure_docker() {
         fi
     fi
 
+    configure_docker_log_limits
     systemctl enable --now docker >/dev/null 2>&1 || log_warning "Could not enable the docker service"
 
     if ! docker compose version >/dev/null 2>&1; then

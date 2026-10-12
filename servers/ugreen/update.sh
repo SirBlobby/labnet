@@ -2,12 +2,13 @@
 set -euo pipefail
 
 main() {
-    local server_dir repository_dir
+    local server_dir repository_dir repository_owner
 
     server_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
     repository_dir="$(cd "$server_dir/../.." && pwd)"
+    repository_owner="$(stat -c %U "$repository_dir")"
 
-    if ! git -C "$repository_dir" -c safe.directory="$repository_dir" pull --ff-only; then
+    if ! runuser -u "$repository_owner" -- git -C "$repository_dir" pull --ff-only; then
         printf '[labnet] warning: git pull failed, using current files\n' >&2
     fi
 

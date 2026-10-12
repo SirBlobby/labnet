@@ -6,7 +6,7 @@ ARC and ASRC have NVIDIA GPUs and set `GPU_VENDOR=nvidia`.
 
 1. Install the NVIDIA driver by hand and reboot
 2. Check that `nvidia-smi` works
-3. Run `install.sh`, which installs the NVIDIA Container Toolkit and adds the `nvidia` runtime to Docker
+3. Run `sudo bash ~/labnet/install.sh <name>`, which installs the NVIDIA Container Toolkit and adds the `nvidia` runtime to Docker
 
 ## Using the GPU in a stack
 

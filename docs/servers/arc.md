@@ -20,8 +20,11 @@
 ## Setup
 
 1. Install the NVIDIA driver and reboot, see [GPU](../gpu.md)
-2. Install the Netbird client and join the network
-3. `sudo bash /opt/labnet/servers/arc/install.sh`
+2. `git clone <repo-url> ~/labnet`
+3. `sudo bash ~/labnet/install.sh arc`
+4. Join the VPN: `sudo netbird up --management-url https://netbird.autonomousrobotics.club --setup-key <key>`
+
+The install script sets up Docker, the NVIDIA Container Toolkit, the Netbird client, all stacks and the update timer.
 
 ## Notes
 

@@ -1,5 +1,6 @@
 PROJECT.md
 UPDATE.md
 .env
+server.local.env
 data/
 letsencrypt/

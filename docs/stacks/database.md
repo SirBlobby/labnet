@@ -69,5 +69,5 @@ docker exec core-postgres pg_dumpall -U postgres > backup.sql
 
 ## Notes
 
-- Netbird and NPM do not use this database
+- Netbird, NPM and Authentik do not use this database
 - Changing a password in `.env` and running `update.sh` updates the role password

@@ -23,9 +23,12 @@
 ## Setup
 
 1. Install the NVIDIA driver and reboot, see [GPU](../gpu.md)
-2. Install the Netbird client and join the network
-3. Set `DATABASE_BIND_ADDRESS` in `servers/asrc/server.env` to the asrc Netbird IP to share the database with other servers
-4. `sudo bash /opt/labnet/servers/asrc/install.sh`
+2. `git clone <repo-url> ~/labnet`
+3. `sudo bash ~/labnet/install.sh asrc`
+4. Join the VPN: `sudo netbird up --management-url https://netbird.autonomousrobotics.club --setup-key <key>`
+5. To share the database with other servers, set `DATABASE_BIND_ADDRESS` to the asrc Netbird IP in `servers/asrc/server.local.env` and run `sudo bash ~/labnet/servers/asrc/update.sh`
+
+The install script sets up Docker, the NVIDIA Container Toolkit, the Netbird client, all stacks and the update timer.
 
 ## Notes
 

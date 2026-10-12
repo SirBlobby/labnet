@@ -33,19 +33,41 @@ generate_base64_key() {
     head -c 32 /dev/urandom | base64 | tr -d '\n'
 }
 
+require_real_server_values() {
+    local key
+
+    for key in "${SERVER_ENV_KEYS[@]}"; do
+        if [[ "${!key}" == *example.com* ]]; then
+            fail "$key still has an example value, set it in $SERVER_LOCAL_ENV_FILE"
+        fi
+    done
+}
+
 load_server_env() {
+    local env_files env_file
+
     SERVER_DIR="$1"
     SERVER_ENV_FILE="$SERVER_DIR/server.env"
+    SERVER_LOCAL_ENV_FILE="$SERVER_DIR/server.local.env"
 
     if [[ ! -f "$SERVER_ENV_FILE" ]]; then
         fail "Missing server settings file: $SERVER_ENV_FILE"
     fi
 
+    env_files=("$SERVER_ENV_FILE")
+    if [[ -f "$SERVER_LOCAL_ENV_FILE" ]]; then
+        env_files+=("$SERVER_LOCAL_ENV_FILE")
+    fi
+
     set -a
-    source "$SERVER_ENV_FILE"
+    for env_file in "${env_files[@]}"; do
+        source "$env_file"
+    done
     set +a
 
-    mapfile -t SERVER_ENV_KEYS < <(grep -oE '^[A-Za-z_][A-Za-z0-9_]*=' "$SERVER_ENV_FILE" | tr -d '=')
+    mapfile -t SERVER_ENV_KEYS < <(grep -ohE '^[A-Za-z_][A-Za-z0-9_]*=' "${env_files[@]}" | tr -d '=' | awk '!seen[$0]++')
+
+    require_real_server_values
 
     if [[ -z "${SERVER_NAME:-}" ]]; then
         fail "SERVER_NAME is not set in $SERVER_ENV_FILE"

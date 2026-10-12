@@ -1,0 +1,68 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: authentik-postgres
+    restart: unless-stopped
+    command: -c shared_buffers=32MB
+    mem_limit: 64m
+    memswap_limit: 256m
+    environment:
+      POSTGRES_USER: authentik
+      POSTGRES_DB: authentik
+      POSTGRES_PASSWORD: ${AUTHENTIK_POSTGRESQL__PASSWORD}
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U authentik -d authentik
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+  server:
+    image: ghcr.io/goauthentik/server:${AUTHENTIK_TAG}
+    container_name: authentik-server
+    restart: unless-stopped
+    command: server
+    mem_limit: 256m
+    memswap_limit: 1g
+    env_file:
+      - .env
+    environment:
+      AUTHENTIK_POSTGRESQL__HOST: authentik-postgres
+      AUTHENTIK_POSTGRESQL__USER: authentik
+      AUTHENTIK_POSTGRESQL__NAME: authentik
+      AUTHENTIK_WEB__WORKERS: 1
+    ports:
+      - 8083:9000
+    volumes:
+      - ./data/authentik:/data
+      - ./custom-templates:/templates
+      - ./blueprints:/blueprints/custom:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+  worker:
+    image: ghcr.io/goauthentik/server:${AUTHENTIK_TAG}
+    container_name: authentik-worker
+    restart: unless-stopped
+    command: worker
+    user: root
+    mem_limit: 128m
+    memswap_limit: 768m
+    env_file:
+      - .env
+    environment:
+      AUTHENTIK_POSTGRESQL__HOST: authentik-postgres
+      AUTHENTIK_POSTGRESQL__USER: authentik
+      AUTHENTIK_POSTGRESQL__NAME: authentik
+      AUTHENTIK_WORKER__THREADS: 1
+    volumes:
+      - ./data/authentik:/data
+      - ./certs:/certs
+      - ./custom-templates:/templates
+      - ./blueprints:/blueprints/custom:ro
+    depends_on:
+      postgres:
+        condition: service_healthy

@@ -11,6 +11,8 @@
 7. Add a doc in `docs/stacks/`
 8. Run `update.sh` on the server
 
+Files without `.example` are copied on every update, use them for config that should follow the repository, like `npm/proxy-hosts` or `authentik/blueprints`.
+
 Use relative paths like `./data` for volumes so data stays in `STACKS_DIR/<stack>`.
 
 ## Adding a database for a service
@@ -25,8 +27,14 @@ See [database](stacks/database.md) for connection strings.
 ## Adding a server
 
 1. Copy an existing `servers/<name>` folder
-2. Update `server.env`
+2. Update `server.env`, set `INSTALL_NETBIRD_CLIENT=true` to install the Netbird client
 3. Add or remove folders in `stacks/` and list them in `STACKS`
-4. Install the Netbird client and join the network
-5. Add a doc in `docs/servers/` and a section in [Ports](ports.md)
-6. Run `install.sh` on the server
+4. Add a doc in `docs/servers/` and a section in [Ports](ports.md)
+5. Run `sudo bash install.sh <name>` on the server
+6. Join the VPN with `netbird up`
+
+## Adding a public domain
+
+1. Pick `<subdomain>.autonomousrobotics.club` and point a DNS A record to the oracle public IP
+2. Add a proxy host in NPM, see [npm](stacks/npm.md)
+3. Add the domain to the tables in [oracle](servers/oracle.md) and [npm](stacks/npm.md)

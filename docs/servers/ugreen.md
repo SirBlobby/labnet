@@ -23,11 +23,13 @@
 1. Enable SSH in the UGOS control panel
 2. Install Docker from the App Center
 3. Make sure `git` is installed
-4. Install the Netbird client and join the network
-5. `sudo bash /volume1/docker/labnet/servers/ugreen/install.sh`
+4. Install the Netbird client and join the network: `sudo netbird up --management-url https://netbird.autonomousrobotics.club --setup-key <key>`
+5. `git clone <repo-url> /volume1/docker/labnet`
+6. `sudo bash /volume1/docker/labnet/install.sh ugreen`
 
 ## Notes
 
 - `UPDATE_PACKAGES=false`, system updates are done through UGOS
+- Docker and the Netbird client are not installed by the script on UGOS
 - Check that port 5001 is free before installing Dockge
 - `/volume1` may be named differently depending on the storage pool

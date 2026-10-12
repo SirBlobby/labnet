@@ -22,9 +22,10 @@ Docker publishes ports on all interfaces and bypasses `ufw`. Ports that should n
 | 3478      | udp      | netbird-server      | 3478           | Netbird STUN                | Public   |
 | 8081      | tcp      | netbird-server      | 80             | Netbird API, gRPC, relay    | Local    |
 | 8082      | tcp      | netbird-dashboard   | 80             | Netbird dashboard           | Local    |
+| 8083      | tcp      | authentik-server    | 9000           | Authentik web UI and API    | Local    |
 | 5001      | tcp      | dockge              | 5001           | Dockge UI                   | VPN      |
 
-Ports 8081 and 8082 are published on all interfaces but only used by NPM. Keep them closed in the security list.
+Ports 8081, 8082 and 8083 are published on all interfaces but only used by NPM. Keep them closed in the security list.
 
 ## arc
 
@@ -65,6 +66,7 @@ UGOS uses its own ports for the NAS web UI (9443 and 9999 by default). Check tha
 |----------------|------|--------------------------|
 | netbird-server | 9090 | Metrics                  |
 | netbird-server | 9000 | Health check             |
+| authentik-postgres | 5432 | Authentik database   |
 
 ## Oracle security list
 

@@ -36,10 +36,24 @@ Nginx Proxy Manager, the public reverse proxy for all services.
 
 | Domain               | Forward to                 | Notes                     |
 |----------------------|----------------------------|---------------------------|
-| `NETBIRD_DOMAIN`     | oracle 8081, 8082          | See [netbird](netbird.md) |
+| `NETBIRD_DOMAIN`     | 172.17.0.1:8082            | Advanced config from `proxy-hosts/netbird.conf` |
+| `AUTHENTIK_DOMAIN`   | 172.17.0.1:8083            | Advanced config from `proxy-hosts/authentik.conf` |
 | Lab services         | `<server netbird ip>:<port>` | Requires Netbird client on oracle |
 
 Add every new public domain to this table.
+
+## Proxy host config
+
+NPM keeps proxy hosts in its own database, so they are added in the admin UI. The config for the Advanced tab is kept in `servers/oracle/stacks/npm/proxy-hosts` and copied to `/opt/stacks/npm/proxy-hosts` on every update.
+
+For each host:
+
+1. Add a proxy host with the domain and forward target from the table above, scheme `http`
+2. Turn on Websockets Support and Block Common Exploits
+3. On the SSL tab request a certificate and turn on Force SSL and HTTP/2 Support
+4. On the Advanced tab paste the content of the matching file in `proxy-hosts`
+
+`172.17.0.1` is the Docker host address, NPM reaches the other stacks through their published ports.
 
 ## Notes
 

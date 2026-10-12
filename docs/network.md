@@ -10,6 +10,7 @@
      +--------------------------------+
      | oracle (public IP)             |
      |  nginx-proxy-manager           |
+     |  authentik                     |
      |  netbird-server                |
      |  netbird-dashboard             |
      +--------------------------------+
@@ -31,6 +32,7 @@
 |------------------|-----------------------------|--------------------------------------------------------|
 | Internet         | Lab service on arc or asrc  | oracle:443 -> NPM -> Netbird IP of the server:port      |
 | Internet         | Netbird dashboard           | oracle:443 -> NPM -> host:8082                          |
+| Internet         | Authentik                   | oracle:443 -> NPM -> host:8083                          |
 | Netbird clients  | Netbird management          | oracle:443 -> NPM -> host:8081 (gRPC)                   |
 | Netbird clients  | Relay                       | oracle:443 -> NPM -> host:8081 `/relay`                 |
 | Netbird clients  | STUN                        | oracle:3478/udp                                         |
