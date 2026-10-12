@@ -56,9 +56,11 @@ oracle has 951 MiB of memory and the OS uses about 350 MiB, so the stack is capp
 
 | Container          | Memory limit | Memory and swap limit | Tuning                       |
 |--------------------|--------------|-----------------------|------------------------------|
-| authentik-server   | 256 MB       | 1 GB                  | `AUTHENTIK_WEB__WORKERS=1`   |
-| authentik-worker   | 128 MB       | 768 MB                | `AUTHENTIK_WORKER__THREADS=1` |
-| authentik-postgres | 64 MB        | 256 MB                | `shared_buffers=32MB`        |
+| authentik-server   | 384 MB       | 1 GB                  | `AUTHENTIK_WEB__WORKERS=1`   |
+| authentik-worker   | 192 MB       | 768 MB                | `AUTHENTIK_WORKER__THREADS=1` |
+| authentik-postgres | 96 MB        | 256 MB                | `shared_buffers=32MB`        |
+
+NPM, Netbird and Dockge together use under 100 MB when idle.
 
 Authentik recommends 2 GB of memory. Here it runs partly from the swap file, so the first start and logins are slow. Check usage with `docker stats`.
 
