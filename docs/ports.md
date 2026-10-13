@@ -24,6 +24,8 @@ Docker publishes ports on all interfaces and bypasses `ufw`. Ports that should n
 | 8082      | tcp      | netbird-dashboard   | 80             | Netbird dashboard           | Local    |
 | 8083      | tcp      | authentik-server    | 9000           | Authentik web UI and API    | Local    |
 | 8084      | tcp      | glance              | 8080           | Glance dashboard            | Local    |
+| 25570     | tcp      | nginx-proxy-manager | 25570          | Minecraft Java stream to arc | Public  |
+| 19132     | udp      | nginx-proxy-manager | 19132          | Minecraft Bedrock stream to arc | Public |
 | 5001      | tcp      | dockge              | 5001           | Dockge UI                   | VPN      |
 
 Ports 8081 to 8084 are published on all interfaces but only used by NPM. Keep them closed in the security list.
@@ -77,6 +79,8 @@ UGOS uses its own ports for the NAS web UI (9443 and 9999 by default). Check tha
 | 80   | tcp      | 0.0.0.0/0 |
 | 443  | tcp      | 0.0.0.0/0 |
 | 3478 | udp      | 0.0.0.0/0 |
+| 25570 | tcp     | 0.0.0.0/0 |
+| 19132 | udp     | 0.0.0.0/0 |
 
 The Oracle Ubuntu image also has `iptables` rules that block incoming traffic. Allow the same ports there.
 

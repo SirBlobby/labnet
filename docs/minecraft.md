@@ -33,6 +33,15 @@ The lab server never needs a public IP or an open port in the university firewal
 
 Use 25565 to 25599 for extra Java servers, see [Ports](ports.md).
 
+Lab Net does not use the default ports on the public side:
+
+| Edition          | Protocol | Public port on oracle | Forwards to           |
+|------------------|----------|-----------------------|-----------------------|
+| Java             | tcp      | 25570                 | arc Netbird IP:25565  |
+| Bedrock (Geyser) | udp      | 19132                 | arc Netbird IP:19132  |
+
+The steps below use the default ports as an example, replace them with the ports above.
+
 ## Requirements
 
 - The lab server is a peer on Netbird and shows as connected in the dashboard
@@ -127,6 +136,28 @@ nc -zv mc.autonomousrobotics.club 25565
 ```
 
 Then add the server in the Minecraft client.
+
+## Bedrock players with Geyser
+
+Geyser lets Bedrock players join a Java server. It listens on its own UDP port next to the Java port.
+
+1. Install Geyser and Floodgate on the Minecraft server
+2. In the Geyser `config.yml` set the Bedrock port to the public port:
+
+```yaml
+bedrock:
+  address: 0.0.0.0
+  port: 19132
+```
+
+3. Restart the Minecraft server
+4. Publish `19132:19132/udp` in the NPM compose file
+5. Add a stream in NPM with incoming port 19132, forward port 19132 and UDP Forwarding on
+6. Add a UDP ingress rule for 19132 to the Oracle security list
+
+Keep the Geyser port and the public port the same. Geyser tells Bedrock clients which port it runs on, and a different public port breaks some clients.
+
+Bedrock players connect to `mc.autonomousrobotics.club` with port `19132`. Bedrock has no SRV records, the port must be typed.
 
 ## More than one server
 
