@@ -9,7 +9,8 @@
 5. Add the stack to `STACKS` in `server.env`
 6. Pick a free host port from [Ports](ports.md) and add the stack to the port map
 7. Add a doc in `docs/stacks/`
-8. Run `update.sh` on the server
+8. Add the service to the page of its server in the dashboard, see [glance](stacks/glance.md)
+9. Run `update.sh` on the server
 
 Files without `.example` are copied on every update, use them for config that should follow the repository, like `npm/proxy-hosts` or `authentik/blueprints`.
 
@@ -32,6 +33,7 @@ See [database](stacks/database.md) for connection strings.
 4. Add a doc in `docs/servers/` and a section in [Ports](ports.md)
 5. Run `sudo bash install.sh <name>` on the server
 6. Join the VPN with `netbird up`
+7. Add a page for the server to the dashboard, see [glance](stacks/glance.md)
 
 ## Adding a public domain
 

@@ -93,6 +93,7 @@ Files edited by hand in `STACKS_DIR` are overwritten on the next update, except 
 | INSTALL_NETBIRD_CLIENT | oracle, arc, asrc | `true` to install the Netbird client            |
 | NETBIRD_DOMAIN        | oracle, arc, asrc | Public domain for Netbird, `netbird.autonomousrobotics.club` |
 | AUTHENTIK_DOMAIN      | oracle       | Public domain for Authentik, `auth.autonomousrobotics.club` |
+| ARC_HOST, ASRC_HOST, UGREEN_HOST | oracle | Netbird IP of each server, used by the Glance pages |
 | DATABASE_BIND_ADDRESS | asrc         | Address Postgres and Valkey are published on         |
 
 Every key is written to each stack `.env` and can be used in templates as `{{KEY}}`.

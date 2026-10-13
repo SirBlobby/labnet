@@ -22,21 +22,42 @@ Glance dashboard, the start page for Lab Net with service status and links.
 | Host                 | Container            | Purpose                       |
 |----------------------|----------------------|-------------------------------|
 | ./config             | /app/config          | Dashboard config, read only   |
-| /var/run/docker.sock | /var/run/docker.sock | Container list, read only     |
 
 ## Config
 
 The dashboard is defined in `config/glance.yml`. Edit it in the repository, it is copied to `/opt/stacks/glance/config` on every update and Glance reloads it without a restart.
 
-| Widget             | Shows                                               |
-|--------------------|-----------------------------------------------------|
-| clock, calendar    | Time and date in `TZ`                               |
-| server-stats       | CPU, memory and disk of oracle                      |
-| monitor            | Up or down status of Netbird, Authentik, NPM, Dockge |
-| docker-containers  | State of every container on oracle                  |
-| bookmarks          | Admin and docs links                                |
+## Pages
 
-To add a service to the monitor:
+There is one page for each server, with the services hosted on it.
+
+| Page   | Contents                                                    |
+|--------|-------------------------------------------------------------|
+| Home   | Clock, calendar, public services, admin and docs links      |
+| Oracle | CPU, memory and disk of oracle, Netbird, Authentik, NPM, Dockge |
+| ARC    | Dockge                                                      |
+| ASRC   | Dockge                                                      |
+| UGREEN | Dockge, UGOS web UI                                         |
+
+## Server addresses
+
+The pages for the other servers use the address of each server from `servers/oracle/server.env`.
+
+| Key         | Value                          |
+|-------------|--------------------------------|
+| ARC_HOST    | Netbird IP of arc              |
+| ASRC_HOST   | Netbird IP of asrc             |
+| UGREEN_HOST | Netbird IP of ugreen           |
+
+Find the IP under Peers in the Netbird dashboard. Set the values and run `update.sh` on oracle. Services of a server show as down until its address is set.
+
+Use the IP, not a `robotics.lab` or `netbird.selfhosted` name. Glance runs in a container and does not use Netbird DNS.
+
+## Adding a service
+
+Add it to the monitor on the page of the server that hosts it.
+
+On oracle:
 
 ```yaml
               - title: Example
@@ -45,13 +66,25 @@ To add a service to the monitor:
                 icon: di:example
 ```
 
-`url` is where a click goes, `check-url` is what Glance tests from inside its container. Use `check-url` for `robotics.lab` names, Glance cannot resolve them. Icons with `di:` come from the Dashboard Icons set.
+On another server:
+
+```yaml
+              - title: Example
+                url: http://${ARC_HOST}:3000
+                icon: di:example
+```
+
+`url` is where a click goes, `check-url` is what Glance tests from inside its container. Use `check-url` when `url` is a `robotics.lab` name. Icons with `di:` come from the Dashboard Icons set.
+
+The monitor only checks web pages. Postgres and Valkey on asrc cannot be listed.
+
+When a new server is added, add a `<NAME>_HOST` key and a new page.
 
 See the [Glance docs](https://github.com/glanceapp/glance/blob/main/docs/configuration.md) for all widgets.
 
 ## Access
 
-The dashboard is for VPN users only, it lists internal services and containers.
+The dashboard is for VPN users only, it lists internal services.
 
 1. In the Netbird dashboard add an A record `glance` in the `robotics.lab` zone that points to the oracle Netbird IP
 2. In NPM add a proxy host:

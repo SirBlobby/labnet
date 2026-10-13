@@ -15,15 +15,10 @@ pages:
 
           - type: calendar
 
-          - type: server-stats
-            servers:
-              - type: local
-                name: oracle
-
       - size: full
         widgets:
           - type: monitor
-            title: Services
+            title: Public services
             cache: 1m
             sites:
               - title: Netbird
@@ -32,18 +27,6 @@ pages:
               - title: Authentik
                 url: https://auth.autonomousrobotics.club
                 icon: di:authentik
-              - title: Nginx Proxy Manager
-                url: http://npm.robotics.lab
-                check-url: http://172.17.0.1:81
-                icon: di:nginx-proxy-manager
-              - title: Dockge
-                url: http://docker.robotics.lab
-                check-url: http://172.17.0.1:5001
-                icon: di:dockge
-
-          - type: docker-containers
-            title: Containers on oracle
-            hide-by-default: false
 
       - size: small
         widgets:
@@ -63,3 +46,73 @@ pages:
                     url: https://docs.goauthentik.io
                   - title: Glance
                     url: https://github.com/glanceapp/glance
+
+  - name: Oracle
+    columns:
+      - size: small
+        widgets:
+          - type: server-stats
+            servers:
+              - type: local
+                name: oracle
+
+      - size: full
+        widgets:
+          - type: monitor
+            title: Services on oracle
+            cache: 1m
+            sites:
+              - title: Netbird
+                url: https://netbird.autonomousrobotics.club
+                icon: di:netbird
+              - title: Authentik
+                url: https://auth.autonomousrobotics.club
+                icon: di:authentik
+              - title: Nginx Proxy Manager
+                url: http://npm.robotics.lab
+                check-url: http://172.17.0.1:81
+                icon: di:nginx-proxy-manager
+              - title: Dockge
+                url: http://docker.robotics.lab
+                check-url: http://172.17.0.1:5001
+                icon: di:dockge
+
+  - name: ARC
+    columns:
+      - size: full
+        widgets:
+          - type: monitor
+            title: Services on arc
+            cache: 1m
+            sites:
+              - title: Dockge
+                url: http://${ARC_HOST}:5001
+                icon: di:dockge
+
+  - name: ASRC
+    columns:
+      - size: full
+        widgets:
+          - type: monitor
+            title: Services on asrc
+            cache: 1m
+            sites:
+              - title: Dockge
+                url: http://${ASRC_HOST}:5001
+                icon: di:dockge
+
+  - name: UGREEN
+    columns:
+      - size: full
+        widgets:
+          - type: monitor
+            title: Services on ugreen
+            cache: 1m
+            sites:
+              - title: Dockge
+                url: http://${UGREEN_HOST}:5001
+                icon: di:dockge
+              - title: UGOS
+                url: https://${UGREEN_HOST}:9443
+                icon: di:ugreen
+                allow-insecure: true
