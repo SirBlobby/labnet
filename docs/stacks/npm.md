@@ -38,6 +38,9 @@ Nginx Proxy Manager, the public reverse proxy for all services.
 |----------------------|----------------------------|---------------------------|
 | `NETBIRD_DOMAIN`     | 172.17.0.1:8082            | Advanced config from `proxy-hosts/netbird.conf` |
 | `AUTHENTIK_DOMAIN`   | 172.17.0.1:8083            | Advanced config from `proxy-hosts/authentik.conf` |
+| `npm.robotics.lab`   | 127.0.0.1:81               | VPN only, access list `vpn-only` |
+| `docker.robotics.lab` | 172.17.0.1:5001           | VPN only, websockets on   |
+| `glance.robotics.lab` | 172.17.0.1:8084           | VPN only, see [glance](glance.md) |
 | Lab services         | `<server netbird ip>:<port>` | Requires Netbird client on oracle |
 
 Add every new public domain to this table.

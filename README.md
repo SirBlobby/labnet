@@ -6,7 +6,7 @@ Server configurations and Docker stacks for the lab VPN network. An Oracle Cloud
 
 | Server | Host                     | Stacks               |
 |--------|--------------------------|----------------------|
-| oracle | Oracle Cloud (Ubuntu 26) | npm, authentik, netbird, dockge |
+| oracle | Oracle Cloud (Ubuntu 26) | npm, authentik, netbird, dockge, glance |
 | arc    | ARC Server (Ubuntu 26), NVIDIA GPU | dockge     |
 | asrc   | ASRC (Ubuntu 24), NVIDIA GPU | database, dockge |
 | ugreen | UGREEN NAS (UGOS)        | dockge               |
@@ -48,3 +48,4 @@ servers/<name>/
 - [Scripts](docs/scripts.md)
 - [GPU](docs/gpu.md)
 - [Extending](docs/extending.md)
+- [Minecraft](docs/minecraft.md)

@@ -9,6 +9,7 @@
 | [Scripts](scripts.md)              | install.sh, update.sh, server.env, templates    |
 | [GPU](gpu.md)                      | NVIDIA setup on ARC and ASRC                    |
 | [Extending](extending.md)          | Adding servers, stacks and databases            |
+| [Minecraft](minecraft.md)          | Public Minecraft servers through the VPN        |
 
 ## Domains
 
@@ -21,7 +22,7 @@
 
 | Server                          | Host                     | Stacks               |
 |---------------------------------|--------------------------|----------------------|
-| [oracle](servers/oracle.md)     | Oracle Cloud (Ubuntu 26) | npm, authentik, netbird, dockge |
+| [oracle](servers/oracle.md)     | Oracle Cloud (Ubuntu 26) | npm, authentik, netbird, dockge, glance |
 | [arc](servers/arc.md)           | ARC Server (Ubuntu 26)   | dockge               |
 | [asrc](servers/asrc.md)         | ASRC (Ubuntu 24)         | database, dockge     |
 | [ugreen](servers/ugreen.md)     | UGREEN NAS (UGOS)        | dockge               |
@@ -34,4 +35,5 @@
 | [netbird](stacks/netbird.md)       | oracle                   | VPN management, signal, relay, STUN  |
 | [npm](stacks/npm.md)               | oracle                   | Reverse proxy and SSL certificates   |
 | [authentik](stacks/authentik.md)   | oracle                   | Identity provider and single sign-on |
+| [glance](stacks/glance.md)         | oracle                   | Dashboard with service status and links |
 | [database](stacks/database.md)     | asrc                     | Central Postgres and Valkey          |

@@ -1,0 +1,65 @@
+server:
+  port: 8080
+
+branding:
+  app-name: Lab Net
+  hide-footer: true
+
+pages:
+  - name: Home
+    columns:
+      - size: small
+        widgets:
+          - type: clock
+            hour-format: 24h
+
+          - type: calendar
+
+          - type: server-stats
+            servers:
+              - type: local
+                name: oracle
+
+      - size: full
+        widgets:
+          - type: monitor
+            title: Services
+            cache: 1m
+            sites:
+              - title: Netbird
+                url: https://netbird.autonomousrobotics.club
+                icon: di:netbird
+              - title: Authentik
+                url: https://auth.autonomousrobotics.club
+                icon: di:authentik
+              - title: Nginx Proxy Manager
+                url: http://npm.robotics.lab
+                check-url: http://172.17.0.1:81
+                icon: di:nginx-proxy-manager
+              - title: Dockge
+                url: http://docker.robotics.lab
+                check-url: http://172.17.0.1:5001
+                icon: di:dockge
+
+          - type: docker-containers
+            title: Containers on oracle
+            hide-by-default: false
+
+      - size: small
+        widgets:
+          - type: bookmarks
+            groups:
+              - title: Admin
+                links:
+                  - title: Oracle Cloud
+                    url: https://cloud.oracle.com
+                  - title: Cloudflare
+                    url: https://dash.cloudflare.com
+              - title: Docs
+                links:
+                  - title: Netbird
+                    url: https://docs.netbird.io
+                  - title: Authentik
+                    url: https://docs.goauthentik.io
+                  - title: Glance
+                    url: https://github.com/glanceapp/glance

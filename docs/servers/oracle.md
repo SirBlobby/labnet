@@ -8,7 +8,7 @@
 | Memory      | 951 MiB, about 350 MiB used by the OS, 2 GB swap file |
 | Storage     | 50 GB (47 GiB usable)         |
 | Role        | Public gateway, VPN control   |
-| Stacks      | npm, authentik, netbird, dockge |
+| Stacks      | npm, authentik, netbird, dockge, glance |
 | STACKS_DIR  | /opt/stacks                   |
 | Updates     | 04:00 daily, packages and stacks |
 
@@ -24,6 +24,7 @@
 | 8081 | tcp      | Netbird server       | Local    |
 | 8082 | tcp      | Netbird dashboard    | Local    |
 | 8083 | tcp      | Authentik            | Local    |
+| 8084 | tcp      | Glance               | Local    |
 | 5001 | tcp      | Dockge               | VPN      |
 
 ## Domains
@@ -34,6 +35,14 @@
 | `auth.autonomousrobotics.club`    | Authentik | `AUTHENTIK_DOMAIN` |
 
 New public services use `<subdomain>.autonomousrobotics.club`.
+
+VPN only names are records in the Netbird `robotics.lab` zone that point to the oracle Netbird IP, with an NPM proxy host that uses the `vpn-only` access list.
+
+| Name                    | Service | Forward to        |
+|-------------------------|---------|-------------------|
+| `npm.robotics.lab`      | NPM admin | 127.0.0.1:81    |
+| `docker.robotics.lab`   | Dockge  | 172.17.0.1:5001   |
+| `glance.robotics.lab`   | Glance  | 172.17.0.1:8084   |
 
 ## Setup
 

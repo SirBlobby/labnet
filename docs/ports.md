@@ -23,9 +23,10 @@ Docker publishes ports on all interfaces and bypasses `ufw`. Ports that should n
 | 8081      | tcp      | netbird-server      | 80             | Netbird API, gRPC, relay    | Local    |
 | 8082      | tcp      | netbird-dashboard   | 80             | Netbird dashboard           | Local    |
 | 8083      | tcp      | authentik-server    | 9000           | Authentik web UI and API    | Local    |
+| 8084      | tcp      | glance              | 8080           | Glance dashboard            | Local    |
 | 5001      | tcp      | dockge              | 5001           | Dockge UI                   | VPN      |
 
-Ports 8081, 8082 and 8083 are published on all interfaces but only used by NPM. Keep them closed in the security list.
+Ports 8081 to 8084 are published on all interfaces but only used by NPM. Keep them closed in the security list.
 
 ## arc
 
@@ -90,3 +91,5 @@ Use these ranges for new stacks to avoid conflicts:
 | 5432      | Postgres (asrc)             |
 | 6379      | Valkey (asrc)               |
 | 8000-8999 | APIs and services behind NPM |
+| 19132     | Minecraft Bedrock, see [Minecraft](minecraft.md) |
+| 25565-25599 | Minecraft Java, see [Minecraft](minecraft.md) |
