@@ -33,7 +33,7 @@ The lab server never needs a public IP or an open port in the university firewal
 
 Use 25565 to 25599 for extra Java servers, see [Ports](ports.md).
 
-Lab Net servers, both run on arc:
+Lab Net servers, all run on arc:
 
 | Server | Address           | Edition          | Protocol | Public port on oracle | Forwards to          |
 |--------|-------------------|------------------|----------|-----------------------|----------------------|
@@ -41,6 +41,8 @@ Lab Net servers, both run on arc:
 | event  | `event.gmmc.club` | Bedrock (Geyser) | udp      | 19133                 | arc Netbird IP:19133 |
 | play   | `play.gmmc.club`  | Java             | tcp      | 25572                 | arc Netbird IP:25572 |
 | play   | `play.gmmc.club`  | Bedrock (Geyser) | udp      | 19132                 | arc Netbird IP:19132 |
+| cobbleverse | `cobble.gmmc.club` | Java             | tcp      | 25585                 | arc Netbird IP:25585 |
+| cobbleverse | `cobble.gmmc.club` | Voice chat       | udp      | 24454                 | arc Netbird IP:24454 |
 
 The steps below use the default ports as an example, replace them with the ports above.
 
@@ -166,6 +168,18 @@ bedrock:
 Keep the Geyser port and the public port the same. Geyser tells Bedrock clients which port it runs on, and a different public port breaks some clients.
 
 Bedrock players connect to `play.gmmc.club` with port `19132`, or `event.gmmc.club` with port `19133`. Bedrock has no SRV records, the port must be typed.
+
+## Voice chat
+
+The Simple Voice Chat mod uses its own UDP port next to the Java port, 24454 by default.
+
+1. Publish `24454:24454/udp` in the NPM compose file
+2. Add a stream in NPM with incoming port 24454, forward port 24454 and UDP Forwarding on
+3. Add a UDP ingress rule for 24454 to the Oracle security list
+
+Keep the public port the same as the port in `config/voicechat/voicechat-server.properties`. The client connects to the address of the Minecraft server on that port.
+
+Two servers with voice chat cannot share a port. Change `port` in the config of the second server and forward that port as well.
 
 ## More than one server
 

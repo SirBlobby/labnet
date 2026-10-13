@@ -11,6 +11,8 @@ services:
       - 19132:19132/udp
       - 25572:25572
       - 19133:19133/udp
+      - 25585:25585
+      - 24454:24454/udp
     volumes:
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt
