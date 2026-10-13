@@ -7,7 +7,7 @@ How to run a Minecraft server on a lab server and make it public through oracle.
 ```
 Player
   |
-  |  mc.autonomousrobotics.club:25565
+  |  event.gmmc.club:25565
   v
 oracle public IP           Oracle security list allows the port
   |
@@ -33,12 +33,14 @@ The lab server never needs a public IP or an open port in the university firewal
 
 Use 25565 to 25599 for extra Java servers, see [Ports](ports.md).
 
-Lab Net does not use the default ports on the public side:
+Lab Net servers, both run on arc:
 
-| Edition          | Protocol | Public port on oracle | Forwards to           |
-|------------------|----------|-----------------------|-----------------------|
-| Java             | tcp      | 25570                 | arc Netbird IP:25565  |
-| Bedrock (Geyser) | udp      | 19132                 | arc Netbird IP:19132  |
+| Server | Address           | Edition          | Protocol | Public port on oracle | Forwards to          |
+|--------|-------------------|------------------|----------|-----------------------|----------------------|
+| event  | `event.gmmc.club` | Java             | tcp      | 25570                 | arc Netbird IP:25565 |
+| event  | `event.gmmc.club` | Bedrock (Geyser) | udp      | 19133                 | arc Netbird IP:19133 |
+| play   | `play.gmmc.club`  | Java             | tcp      | 25572                 | arc Netbird IP:25572 |
+| play   | `play.gmmc.club`  | Bedrock (Geyser) | udp      | 19132                 | arc Netbird IP:19132 |
 
 The steps below use the default ports as an example, replace them with the ports above.
 
@@ -117,22 +119,28 @@ Add an ingress rule to the security list, see [oracle](servers/oracle.md).
 
 ## 5. Add the DNS record
 
-In Cloudflare add an A record:
+The Minecraft server uses the `gmmc.club` domain, not `autonomousrobotics.club`. In the DNS settings of `gmmc.club` add an A record:
 
 | Type | Name | Content            | Proxy status |
 |------|------|--------------------|--------------|
-| A    | `mc` | oracle public IP   | DNS only     |
+| A    | `event` | oracle public IP | DNS only   |
 
-The record must be DNS only. The Cloudflare proxy only carries web traffic and breaks Minecraft.
+The record must be DNS only when the domain is on Cloudflare. The Cloudflare proxy only carries web traffic and breaks Minecraft.
 
-Players connect to `mc.autonomousrobotics.club`.
+Java uses public port 25570, so add an SRV record to hide the port:
+
+| Type | Name                    | Priority | Weight | Port  | Target            |
+|------|-------------------------|----------|--------|-------|-------------------|
+| SRV  | `_minecraft._tcp.event` | 0        | 5      | 25570 | `event.gmmc.club` |
+
+Players connect to `event.gmmc.club`.
 
 ## 6. Test
 
 From a computer that is not on the VPN:
 
 ```
-nc -zv mc.autonomousrobotics.club 25565
+nc -zv event.gmmc.club 25565
 ```
 
 Then add the server in the Minecraft client.
@@ -157,7 +165,7 @@ bedrock:
 
 Keep the Geyser port and the public port the same. Geyser tells Bedrock clients which port it runs on, and a different public port breaks some clients.
 
-Bedrock players connect to `mc.autonomousrobotics.club` with port `19132`. Bedrock has no SRV records, the port must be typed.
+Bedrock players connect to `play.gmmc.club` with port `19132`, or `event.gmmc.club` with port `19133`. Bedrock has no SRV records, the port must be typed.
 
 ## More than one server
 
