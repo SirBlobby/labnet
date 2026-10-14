@@ -41,6 +41,7 @@ Nginx Proxy Manager, the public reverse proxy for all services.
 | `npm.robotics.lab`   | 127.0.0.1:81               | VPN only, access list `vpn-only` |
 | `docker.robotics.lab` | 172.17.0.1:5001           | VPN only, websockets on   |
 | `glance.robotics.lab` | 172.17.0.1:8084           | VPN only, see [glance](glance.md) |
+| `d1.robotics.lab`     | 100.82.10.108:5001        | Dockge on arc, VPN only, websockets on |
 | Lab services         | `<server netbird ip>:<port>` | Requires Netbird client on oracle |
 
 Add every new public domain to this table.

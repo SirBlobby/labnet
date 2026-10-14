@@ -86,7 +86,8 @@ pages:
             cache: 1m
             sites:
               - title: Dockge
-                url: http://${ARC_HOST}:5001
+                url: http://d1.robotics.lab
+                check-url: http://${ARC_HOST}:5001
                 icon: di:dockge
 
   - name: ASRC
