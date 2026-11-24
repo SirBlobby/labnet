@@ -18,10 +18,10 @@ Use relative paths like `./data` for volumes so data stays in `STACKS_DIR/<stack
 
 ## Adding a database for a service
 
-1. Add the name to `SERVICE_DATABASES` in `servers/ugreen/stacks/database/.env.example`
-2. Add `<NAME>_DB_PASSWORD=__GENERATE_SECRET__` to the same file
-3. Run `update.sh` on ugreen
-4. Copy the password from `/volume1/docker/stacks/database/.env` on ugreen into the service `.env`
+1. Add `<NAME>_DB_PASSWORD=__GENERATE_SECRET__` to `servers/ugreen/stacks/database/.env.example`, for example `GITEA_DB_PASSWORD`
+2. Push, then run `update.sh` on ugreen. It creates the role and database `<name>` (lower case)
+3. Get the password on ugreen: `sudo grep <NAME>_DB_PASSWORD /volume1/docker/stacks/database/.env`
+4. Put it in the service `.env` and connect to `100.82.4.126:5432`, or `core-postgres:5432` from a stack on ugreen
 
 See [database](stacks/database.md) for connection strings.
 

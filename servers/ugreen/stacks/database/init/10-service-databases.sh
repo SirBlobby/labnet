@@ -1,10 +1,17 @@
 #!/usr/bin/env bash
 set -e
 
-IFS=',' read -ra database_names <<< "${SERVICE_DATABASES:-}"
+# One role and database for every <NAME>_DB_PASSWORD variable, plus any extra
+# names in SERVICE_DATABASES. New .env.example keys reach an existing .env on
+# update, so adding <NAME>_DB_PASSWORD is all a new service needs.
+database_names=()
+for variable in $(compgen -v | grep -E '^[A-Z0-9_]+_DB_PASSWORD$'); do
+    database_names+=("$(printf '%s' "${variable%_DB_PASSWORD}" | tr '[:upper:]' '[:lower:]')")
+done
+IFS=',' read -ra listed_names <<< "${SERVICE_DATABASES:-}"
+database_names+=("${listed_names[@]}")
 
-for database_name in "${database_names[@]}"; do
-    database_name="$(echo "$database_name" | tr -d '[:space:]')"
+for database_name in $(printf '%s\n' "${database_names[@]}" | tr -d '[:blank:]' | sort -u); do
     if [[ -z "$database_name" ]]; then
         continue
     fi

@@ -66,8 +66,19 @@ ensure_networks() {
 
 start_stack() {
     local compose_file="$1/compose.yaml"
+    local attempt
 
-    docker compose -f "$compose_file" pull
+    # Registries rate limit bursts of pulls, retry before giving up.
+    for attempt in 1 2 3; do
+        if docker compose -f "$compose_file" pull; then
+            break
+        fi
+        if [[ "$attempt" -eq 3 ]]; then
+            fail "Could not pull images for $(basename "$1")"
+        fi
+        log_warning "Pull failed, retrying in 30 seconds"
+        sleep 30
+    done
     docker compose -f "$compose_file" up -d --remove-orphans
 }
 

@@ -35,8 +35,8 @@ Central Postgres and Valkey for all services.
 |-----------------------|------------------------------------------------|
 | POSTGRES_PASSWORD     | Password for the `postgres` superuser          |
 | VALKEY_PASSWORD       | Password for Valkey                            |
-| SERVICE_DATABASES     | Comma separated list of service databases      |
-| `<NAME>_DB_PASSWORD`  | Password for each service role                 |
+| `<NAME>_DB_PASSWORD`  | Creates role and database `<name>` with this password |
+| SERVICE_DATABASES     | Optional extra names, older installs still have it |
 
 ## Service databases
 

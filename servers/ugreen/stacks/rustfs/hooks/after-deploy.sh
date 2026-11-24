@@ -26,7 +26,7 @@ docker exec "$container_name" sh -ec '
         [ -n "$bucket" ] || continue
         url="http://127.0.0.1:9000/$bucket"
         auth="$RUSTFS_ACCESS_KEY:$RUSTFS_SECRET_KEY"
-        if curl -fsS -o /dev/null -I --aws-sigv4 "aws:amz:us-east-1:s3" --user "$auth" "$url"; then
+        if curl -fs -o /dev/null -I --aws-sigv4 "aws:amz:us-east-1:s3" --user "$auth" "$url"; then
             continue
         fi
         curl -fsS -o /dev/null -X PUT --aws-sigv4 "aws:amz:us-east-1:s3" --user "$auth" "$url"
