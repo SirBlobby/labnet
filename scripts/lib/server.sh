@@ -14,6 +14,7 @@ source "$LIBRARY_DIR/schedule.sh"
 
 install_server() {
     require_root
+    umask 022
     load_server_env "$1"
     require_command git
     ensure_swap
@@ -30,6 +31,7 @@ install_server() {
 
 update_server() {
     require_root
+    umask 022
     load_server_env "$1"
     update_system_packages
     ensure_docker_waits_for_netbird

@@ -10,7 +10,24 @@ sync_stack_files() {
         target_file="$target_dir/$relative_path"
         mkdir -p "$(dirname "$target_file")"
         cp "$source_file" "$target_file"
+        make_readable "$target_dir" "$target_file"
     done < <(find "$source_dir" -path "$source_dir/hooks" -prune -o -type f ! -name '*.example' -print0)
+}
+
+# Containers often read config as a non root user (postgres runs as uid 999),
+# so copied files and their folders must be readable by everyone, whatever
+# the umask of root is. Secrets (.env, rendered templates) stay at 600.
+make_readable() {
+    local target_dir="$1"
+    local path="$2"
+
+    chmod go+rX "$path"
+    path="$(dirname "$path")"
+    while [[ "$path" == "$target_dir"* ]]; do
+        chmod go+rx "$path"
+        [[ "$path" == "$target_dir" ]] && break
+        path="$(dirname "$path")"
+    done
 }
 
 run_stack_hook() {
