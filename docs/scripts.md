@@ -40,7 +40,7 @@ Steps:
 2. Upgrades system packages when `UPDATE_PACKAGES=true`
 3. Installs Docker if missing (get.docker.com, falls back to apt) and writes `/etc/docker/daemon.json` with log limits when `DOCKER_LOG_MAX_SIZE` is set and the file is missing
 4. Installs the NVIDIA Container Toolkit when `GPU_VENDOR=nvidia`
-5. Installs the Netbird client when `INSTALL_NETBIRD_CLIENT=true` and it is missing
+5. Installs the Netbird client when `INSTALL_NETBIRD_CLIENT=true` and it is missing, and makes Docker wait for Netbird at boot when `WAIT_FOR_NETBIRD=true`
 6. Creates the networks in `DOCKER_NETWORKS`
 7. Deploys every stack in `STACKS`
 8. Installs the systemd timer `labnet-update-<name>`
@@ -90,11 +90,13 @@ Files edited by hand in `STACKS_DIR` are overwritten on the next update, except 
 | GPU_VENDOR            | arc, asrc    | `nvidia` to set up GPU containers                    |
 | SWAP_SIZE_MB          | oracle       | Size of the swap file in MB, empty skips it          |
 | DOCKER_LOG_MAX_SIZE   | oracle, arc, asrc | Max size of one container log file, 3 files are kept |
-| INSTALL_NETBIRD_CLIENT | oracle, arc, asrc | `true` to install the Netbird client            |
-| NETBIRD_DOMAIN        | oracle, arc, asrc | Public domain for Netbird, `netbird.autonomousrobotics.club` |
+| INSTALL_NETBIRD_CLIENT | oracle, arc, asrc, ugreen | `true` to install the Netbird client    |
+| NETBIRD_DOMAIN        | oracle, arc, asrc, ugreen | Public domain for Netbird, `netbird.autonomousrobotics.club` |
 | AUTHENTIK_DOMAIN      | oracle       | Public domain for Authentik, `auth.autonomousrobotics.club` |
 | ARC_HOST, ASRC_HOST, UGREEN_HOST | oracle | Netbird IP of each server, used by the Glance pages |
-| DATABASE_BIND_ADDRESS | asrc         | Address Postgres and Valkey are published on         |
+| DATABASE_BIND_ADDRESS | ugreen       | Address Postgres and Valkey are published on         |
+| RUSTFS_BIND_ADDRESS, IMMICH_BIND_ADDRESS | ugreen | Address RustFS and Immich are published on, see [VPN access](vpn-access.md) |
+| WAIT_FOR_NETBIRD      | ugreen       | `true` to make Docker wait for Netbird at boot       |
 
 Every key is written to each stack `.env` and can be used in templates as `{{KEY}}`.
 

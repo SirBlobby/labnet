@@ -93,7 +93,7 @@ Back up `/opt/stacks/authentik/.env` and `/opt/stacks/authentik/data/authentik` 
 
 ## Notes
 
-- Authentik keeps its own Postgres on oracle, so logins do not depend on the VPN or the database on asrc
+- Authentik keeps its own Postgres on oracle, so logins do not depend on the VPN or the database on ugreen
 - Changing `AUTHENTIK_POSTGRESQL__PASSWORD` in `.env` does not change the role password in an existing database
 - Authentik is pinned to a version, the `latest` tag is frozen at 2025.2 and must not be used. To upgrade, read the release notes, change `AUTHENTIK_TAG` in `/opt/stacks/authentik/.env` and run `update.sh`
 - Keep port 8083 closed in the security list, all traffic goes through NPM

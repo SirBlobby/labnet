@@ -18,12 +18,18 @@ Use relative paths like `./data` for volumes so data stays in `STACKS_DIR/<stack
 
 ## Adding a database for a service
 
-1. Add the name to `SERVICE_DATABASES` in `servers/asrc/stacks/database/.env.example`
+1. Add the name to `SERVICE_DATABASES` in `servers/ugreen/stacks/database/.env.example`
 2. Add `<NAME>_DB_PASSWORD=__GENERATE_SECRET__` to the same file
-3. Run `update.sh` on asrc
-4. Copy the password from `/opt/stacks/database/.env` on asrc into the service `.env`
+3. Run `update.sh` on ugreen
+4. Copy the password from `/volume1/docker/stacks/database/.env` on ugreen into the service `.env`
 
 See [database](stacks/database.md) for connection strings.
+
+New keys in `.env.example` are added to an existing `.env` on the next update, values already there are kept.
+
+## Making a stack reachable over the VPN
+
+Publish its ports on a bind address from `server.env`, like `${IMMICH_BIND_ADDRESS}:2283:2283`, and add the key to `server.env`. See [VPN access](vpn-access.md).
 
 ## Adding a server
 

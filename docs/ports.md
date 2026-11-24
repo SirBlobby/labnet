@@ -47,17 +47,20 @@ Ports 8081 to 8084 are published on all interfaces but only used by NPM. Keep th
 |-----------|----------|---------------|----------------|------------|------------------------------|
 | 22        | tcp      | host          | -              | SSH        | LAN, VPN                     |
 | 5001      | tcp      | dockge        | 5001           | Dockge UI  | LAN, VPN                     |
-| 5432      | tcp      | core-postgres | 5432           | Postgres   | Local, VPN when bound to Netbird IP |
-| 6379      | tcp      | core-valkey   | 6379           | Valkey     | Local, VPN when bound to Netbird IP |
-
-Postgres and Valkey bind to `DATABASE_BIND_ADDRESS` (default `127.0.0.1`).
 
 ## ugreen
 
 | Host port | Protocol | Container | Container port | Service    | Exposure |
 |-----------|----------|-----------|----------------|------------|----------|
 | 22        | tcp      | host      | -              | SSH        | LAN, VPN |
+| 2283      | tcp      | immich-server | 2283       | Immich     | `IMMICH_BIND_ADDRESS`, LAN and VPN |
 | 5001      | tcp      | dockge    | 5001           | Dockge UI  | LAN, VPN |
+| 5432      | tcp      | core-postgres | 5432       | Postgres   | `DATABASE_BIND_ADDRESS`, VPN |
+| 6379      | tcp      | core-valkey | 6379         | Valkey     | `DATABASE_BIND_ADDRESS`, VPN |
+| 9000      | tcp      | rustfs    | 9000           | RustFS S3 API | `RUSTFS_BIND_ADDRESS`, LAN and VPN |
+| 9001      | tcp      | rustfs    | 9001           | RustFS console | `RUSTFS_BIND_ADDRESS`, LAN and VPN |
+
+Bind addresses are set in `servers/ugreen/server.env`, see [VPN access](vpn-access.md).
 
 UGOS uses its own ports for the NAS web UI (9443 and 9999 by default). Check that 5001 is not already used by the NAS before installing.
 
@@ -100,8 +103,10 @@ Use these ranges for new stacks to avoid conflicts:
 |-----------|-----------------------------|
 | 3000-3999 | Web apps                    |
 | 5001      | Dockge (every server)       |
-| 5432      | Postgres (asrc)             |
-| 6379      | Valkey (asrc)               |
+| 2283      | Immich (ugreen)             |
+| 5432      | Postgres (ugreen)           |
+| 6379      | Valkey (ugreen)             |
+| 9000-9001 | RustFS (ugreen)             |
 | 8000-8999 | APIs and services behind NPM |
 | 19132     | Minecraft Bedrock, see [Minecraft](minecraft.md) |
 | 25565-25599 | Minecraft Java, see [Minecraft](minecraft.md) |

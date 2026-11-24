@@ -20,8 +20,10 @@
    +---------+  +---------+  +---------+
    |  arc    |  |  asrc   |  | ugreen  |
    |  GPU    |  |  GPU    |  |  NAS    |
-   |         |  | postgres|  |         |
-   |         |  | valkey  |  |         |
+   |         |  |         |  | postgres|
+   |         |  |         |  | valkey  |
+   |         |  |         |  | rustfs  |
+   |         |  |         |  | immich  |
    +---------+  +---------+  +---------+
    university firewall      home or lab LAN
 ```
@@ -37,8 +39,9 @@
 | Netbird clients  | Netbird management          | oracle:443 -> NPM -> host:8081 (gRPC)                   |
 | Netbird clients  | Relay                       | oracle:443 -> NPM -> host:8081 `/relay`                 |
 | Netbird clients  | STUN                        | oracle:3478/udp                                         |
-| arc, ugreen      | Postgres or Valkey          | Netbird IP of asrc:5432 or :6379                        |
-| asrc stacks      | Postgres or Valkey          | `core-postgres:5432`, `core-valkey:6379` on `core-data` |
+| arc, asrc        | Postgres or Valkey          | Netbird IP of ugreen:5432 or :6379                      |
+| ugreen stacks    | Postgres or Valkey          | `core-postgres:5432`, `core-valkey:6379` on `core-data` |
+| VPN clients      | Immich, RustFS              | Netbird IP of ugreen:2283, :9000, :9001, see [VPN access](vpn-access.md) |
 | Admin            | Dockge, NPM admin           | Netbird IP of the server:5001 or oracle:81              |
 
 ## Exposing a lab service to the internet
@@ -52,5 +55,5 @@
 
 | Network     | Server | Created by     | Used by                                 |
 |-------------|--------|----------------|-----------------------------------------|
-| `core-data` | asrc   | install.sh     | database stack and any stack on asrc that needs the database |
+| `core-data` | ugreen | install.sh     | database stack and any stack on ugreen that needs the database |
 | `<stack>_default` | all | docker compose | Containers inside one stack          |

@@ -110,6 +110,12 @@ pages:
             title: Services on ugreen
             cache: 1m
             sites:
+              - title: Immich
+                url: http://${UGREEN_HOST}:2283
+                icon: di:immich
+              - title: RustFS
+                url: http://${UGREEN_HOST}:9001
+                icon: di:rustfs
               - title: Dockge
                 url: http://${UGREEN_HOST}:5001
                 icon: di:dockge

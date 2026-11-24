@@ -33,4 +33,4 @@ The install script sets up Docker, the NVIDIA Container Toolkit, the Netbird cli
 ## Notes
 
 - Ubuntu 26.04 may not be supported by get.docker.com yet, the script falls back to the apt `docker.io` package
-- Services that need the central database connect to the asrc Netbird IP, see [database](../stacks/database.md)
+- Services that need the central database connect to the ugreen Netbird IP, see [database](../stacks/database.md)

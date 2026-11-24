@@ -73,5 +73,5 @@ Check usage with `df -h /` and `docker system df`.
 
 - Ubuntu 26.04 may not be supported by get.docker.com yet, the script falls back to the apt `docker.io` package
 - Only about 600 MiB of memory is free for Docker and all stacks, keep new stacks small and set a `mem_limit` on anything heavy, see [authentik](../stacks/authentik.md)
-- Netbird and NPM use their built-in SQLite and Authentik has its own Postgres, so the VPN and logins do not depend on the database on asrc
+- Netbird and NPM use their built-in SQLite and Authentik has its own Postgres, so the VPN and logins do not depend on the database on ugreen
 - Ports 81 and 5001 should only be reached through the VPN, keep them closed in the security list

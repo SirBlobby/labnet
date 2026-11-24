@@ -4,15 +4,17 @@ Central Postgres and Valkey for all services.
 
 | Item        | Value                                  |
 |-------------|----------------------------------------|
-| Server      | asrc                                   |
+| Server      | ugreen                                 |
 | Images      | postgres:16, valkey/valkey:8-bookworm  |
 | Containers  | core-postgres, core-valkey             |
 | Network     | core-data (external)                   |
-| Source      | `servers/asrc/stacks/database`         |
-| Data        | `/opt/stacks/database/data`            |
-| Secrets     | `/opt/stacks/database/.env`            |
+| Source      | `servers/ugreen/stacks/database`       |
+| Data        | `/volume1/docker/stacks/database/data` |
+| Secrets     | `/volume1/docker/stacks/database/.env` |
 
 ## Ports
+
+`DATABASE_BIND_ADDRESS` is the ugreen Netbird IP, so Postgres and Valkey are reachable over the VPN only. See [VPN access](../vpn-access.md).
 
 | Host port                       | Container     | Container port | Protocol | Service  |
 |---------------------------------|---------------|----------------|----------|----------|
@@ -50,10 +52,10 @@ Roles and databases are created after every deploy by `hooks/after-deploy.sh`. E
 
 | From              | Postgres URL                                                   | Valkey URL                                      |
 |-------------------|----------------------------------------------------------------|-------------------------------------------------|
-| asrc stacks       | `postgres://<name>:<password>@core-postgres:5432/<name>`        | `redis://:<password>@core-valkey:6379`           |
-| Other servers     | `postgres://<name>:<password>@<asrc netbird ip>:5432/<name>`    | `redis://:<password>@<asrc netbird ip>:6379`     |
+| ugreen stacks     | `postgres://<name>:<password>@core-postgres:5432/<name>`        | `redis://:<password>@core-valkey:6379`           |
+| Other servers     | `postgres://<name>:<password>@100.82.4.126:5432/<name>`         | `redis://:<password>@100.82.4.126:6379`          |
 
-Stacks on asrc join the network with:
+Stacks on ugreen join the network with:
 
 ```yaml
 networks:
@@ -70,4 +72,7 @@ docker exec core-postgres pg_dumpall -U postgres > backup.sql
 ## Notes
 
 - Netbird, NPM and Authentik do not use this database
+- Immich keeps its own Postgres, it needs the VectorChord extension, see [immich](immich.md)
+- Get a password on ugreen with `sudo grep <NAME>_DB_PASSWORD /volume1/docker/stacks/database/.env`
+- Moved from asrc to ugreen. If the stack ever ran on asrc, stop it there with `docker compose -f /opt/stacks/database/compose.yaml down` and move the data with `pg_dumpall`
 - Changing a password in `.env` and running `update.sh` updates the role password

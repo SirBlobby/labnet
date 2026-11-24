@@ -21,6 +21,7 @@ install_server() {
     ensure_docker
     ensure_gpu_support
     ensure_netbird_client
+    ensure_docker_waits_for_netbird
     ensure_networks
     deploy_all_stacks
     install_update_timer
@@ -31,6 +32,7 @@ update_server() {
     require_root
     load_server_env "$1"
     update_system_packages
+    ensure_docker_waits_for_netbird
     ensure_networks
     deploy_all_stacks
     prune_unused_images

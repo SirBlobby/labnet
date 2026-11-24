@@ -9,6 +9,7 @@
 | [Scripts](scripts.md)              | install.sh, update.sh, server.env, templates    |
 | [GPU](gpu.md)                      | NVIDIA setup on ARC and ASRC                    |
 | [Extending](extending.md)          | Adding servers, stacks and databases            |
+| [VPN access](vpn-access.md)        | Bind addresses, VPN only services, access control |
 | [Minecraft](minecraft.md)          | Public Minecraft servers through the VPN        |
 
 ## Domains
@@ -24,8 +25,8 @@
 |---------------------------------|--------------------------|----------------------|
 | [oracle](servers/oracle.md)     | Oracle Cloud (Ubuntu 26) | npm, authentik, netbird, dockge, glance |
 | [arc](servers/arc.md)           | ARC Server (Ubuntu 26)   | dockge               |
-| [asrc](servers/asrc.md)         | ASRC (Ubuntu 24)         | database, dockge     |
-| [ugreen](servers/ugreen.md)     | UGREEN NAS (UGOS)        | dockge               |
+| [asrc](servers/asrc.md)         | ASRC (Ubuntu 24)         | dockge               |
+| [ugreen](servers/ugreen.md)     | UGREEN NAS (UGOS)        | database, rustfs, immich, dockge |
 
 ## Stacks
 
@@ -36,4 +37,6 @@
 | [npm](stacks/npm.md)               | oracle                   | Reverse proxy and SSL certificates   |
 | [authentik](stacks/authentik.md)   | oracle                   | Identity provider and single sign-on |
 | [glance](stacks/glance.md)         | oracle                   | Dashboard with service status and links |
-| [database](stacks/database.md)     | asrc                     | Central Postgres and Valkey          |
+| [database](stacks/database.md)     | ugreen                   | Central Postgres and Valkey          |
+| [rustfs](stacks/rustfs.md)         | ugreen                   | S3 compatible object storage         |
+| [immich](stacks/immich.md)         | ugreen                   | Photo and video library              |

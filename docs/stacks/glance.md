@@ -37,7 +37,7 @@ There is one page for each server, with the services hosted on it.
 | Oracle | CPU, memory and disk of oracle, Netbird, Authentik, NPM, Dockge |
 | ARC    | Dockge                                                      |
 | ASRC   | Dockge                                                      |
-| UGREEN | Dockge, UGOS web UI                                         |
+| UGREEN | Immich, RustFS, Dockge, UGOS web UI                         |
 
 ## Server addresses
 
@@ -76,7 +76,7 @@ On another server:
 
 `url` is where a click goes, `check-url` is what Glance tests from inside its container. Use `check-url` when `url` is a `robotics.lab` name. Icons with `di:` come from the Dashboard Icons set.
 
-The monitor only checks web pages. Postgres and Valkey on asrc cannot be listed.
+The monitor only checks web pages. Postgres and Valkey on ugreen cannot be listed.
 
 When a new server is added, add a `<NAME>_HOST` key and a new page.
 
